@@ -77,6 +77,14 @@ app.get('/api/movies/:id', (req, res)=>{
     })
 })
 
+app.delete('/api/movies/:id', (req, res) =>{
+    console.log(req.params.id);
+    MovieModel.deleteOne({_id: req.params.id},
+        (error, data) =>{
+            res.json(data);
+        });
+})
+
 app.get('/api/movies', (req, res) => {
     MovieModel.find((error, data)=>{
         res.json({movies:data});
@@ -96,5 +104,7 @@ app.get('/api/movies', (req, res) => {
 
     // res.status(200).json({ movies: myMovies, message: 'Data Sent' });
 })
+
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
