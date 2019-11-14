@@ -30,12 +30,9 @@ class App extends React.Component {
             <Route exact path="/" component={Content} />
             <Route path="/read" component={Read} />
             <Route path="/create" component={Create} />
-            <Route path="/edit" component={Edit} />
+            <Route path="/edit/:id" component={Edit} />
           </Switch>
 
-          {/* <Header></Header>
-        <Content></Content>
-        <Footer></Footer> */}
         </div>
       </BrowserRouter>
     );

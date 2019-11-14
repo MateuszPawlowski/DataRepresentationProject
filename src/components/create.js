@@ -47,8 +47,7 @@ class Create extends React.Component {
   render() {
     return (
       <div>
-        <h3>Create Component</h3>
-
+        <h1>Hello from Create component</h1>
         <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
             <label>Movie Title</label>
@@ -59,15 +58,6 @@ class Create extends React.Component {
               onChange={this.handleMovieTitleChange}
             ></input>
           </div>
-          <div>
-            <input
-              type="Submit"
-              value="Add Movie">
-            </input>
-          </div>
-        </form>
-
-        <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
             <label>Movie Year</label>
             <input
@@ -77,28 +67,19 @@ class Create extends React.Component {
               onChange={this.handleMovieYearChange}
             ></input>
           </div>
-          <div>
-            <input
-              type="Submit"
-              value="Add Year">
-            </input>
-          </div>
-        </form>
-
-        <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
-            <label>Movie Year</label>
-            <input
-              type='text'
+            <label>Movie Poster Url</label>
+            <textarea
+              row='3'
               className='form-control'
               value={this.state.Poster}
               onChange={this.handleMoviePosterChange}
-            ></input>
+            ></textarea>
           </div>
           <div>
             <input
-              type="Submit"
-              value="Add Poster">
+              type="submit"
+              value="Add Movie">
             </input>
           </div>
         </form>
