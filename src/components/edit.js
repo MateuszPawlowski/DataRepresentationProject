@@ -1,111 +1,128 @@
+// imports
 import React from 'react';
 import axios from 'axios';
+import printers from '../images/printers.png'
+import computers from '../images/pcs.png'
 
 class Edit extends React.Component {
-
+  // contructor
+  // handles the properties
   constructor(props) {
     super(props);
     this.state = {
-      Title: '',
-      Year: '',
-      Poster: '',
+      Price: '',
+      Product: '',
+      Image: '',
       _id: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleMovieTitleChange = this.handleMovieTitleChange.bind(this);
-    this.handleMovieYearChange = this.handleMovieYearChange.bind(this);
-    this.handleMoviePosterChange = this.handleMoviePosterChange.bind(this);
+    this.handleShopPriceChange = this.handleShopPriceChange.bind(this);
+    this.handleShopProductChange = this.handleShopProductChange.bind(this);
+    this.handleShopImageChange = this.handleShopImageChange.bind(this);
 
   }
 
+  // gets the saved data
   componentDidMount() {
-    //alert(this.props.match.params.id);
-
-    axios.get('http://localhost:4000/api/movies/' + this.props.match.params.id)
+    axios.get('http://localhost:4000/api/products/' + this.props.match.params.id)
       .then((response) => {
         this.setState({
           _id: response.data._id,
-          Title: response.data.title,
-          Year: response.data.year,
-          Poster: response.data.poster
+          Price: response.data.price,
+          Product: response.data.product,
+          Image: response.data.image
         })
       })
       .catch();
   }
 
-  handleMovieTitleChange(e) {
-    this.setState({ Title: e.target.value });
+  // methods
+  handleShopPriceChange(e) {
+    this.setState({ Price: e.target.value });
   }
 
-  handleMovieYearChange(e) {
-    this.setState({ Year: e.target.value });
+  handleShopProductChange(e) {
+    this.setState({ Product: e.target.value });
   }
 
-  handleMoviePosterChange(e) {
-    this.setState({ Poster: e.target.value });
+  handleShopImageChange(e) {
+    this.setState({ Image: e.target.value });
   }
 
   handleSubmit(e) {
-    alert(this.state.Title + "  " + this.state.Year + "  " + this.state.Poster);
+    alert("Product Edited");
     e.preventDefault();
 
-    const movieObject = {
-      title: this.state.Title,
-      year: this.state.Year,
-      poster: this.state.Poster
+    // constant for the products
+    const productObject = {
+      price: this.state.Price,
+      product: this.state.Product,
+      image: this.state.Image
     }
+    // puts the info onto localhost 4000
+    axios.put('http://localhost:4000/api/products/' + this.state._id,
+      productObject)
+      .then()
+      .catch();
 
-    axios.put('http://localhost:4000/api/movies/' + this.state._id, 
-    movieObject)
-    .then()
-    .catch();
-
+    // sets price, product, image
     this.setState({
-      Title: '',
-      Year: '',
-      Poster: ''
+      Price: '',
+      Product: '',
+      Image: ''
     });
   }
 
   render() {
     return (
-      <div>
-        <h1>Hello from Edit component</h1>
-        <form onSubmit={this.handleSubmit}>
+      // div to style the page
+      <div className="Background">
+        <marquee id="black" behavior="scroll" scrollamount="250" direction="left"><b>--------------------------------</b></marquee>
+        <h1 id="black">Edit Product</h1>
+        <marquee id="black" behavior="scroll" scrollamount="250" direction="left"><b>--------------------------------</b></marquee>
+
+        {/* form alligning everything and handling the submits for each product */}
+        <form id='inputs' onSubmit={this.handleSubmit}>
           <div className='form-group'>
-            <label>Movie Title</label>
+            <label><b>Product</b></label>
+            {/* input for the text (handles the value for product and assigns it. Other inputs are identical) */}
             <input
               type='text'
               className='form-control'
-              value={this.state.Title}
-              onChange={this.handleMovieTitleChange}
+              value={this.state.Product}
+              onChange={this.handleShopProductChange}
             ></input>
           </div>
           <div className='form-group'>
-            <label>Movie Year</label>
+            <label><b>Price</b></label>
             <input
               type='text'
               className='form-control'
-              value={this.state.Year}
-              onChange={this.handleMovieYearChange}
+              value={this.state.Price}
+              onChange={this.handleShopPriceChange}
             ></input>
           </div>
           <div className='form-group'>
-            <label>Movie Poster Url</label>
+            <label><b>Image of Product</b></label>
             <textarea
               row='3'
               className='form-control'
-              value={this.state.Poster}
-              onChange={this.handleMoviePosterChange}
+              value={this.state.Image}
+              onChange={this.handleShopImageChange}
             ></textarea>
           </div>
           <div>
             <input
+              id="input"
               type="submit"
-              value="Edit Movie">
+              value="Edit Product">
             </input>
           </div>
         </form>
+        {/* images and marquee added */}
+        <img src={computers} height="380" />
+        <img src={printers} height="380" />
+        <marquee behavior="alternate" scrollamount="10" direction="left" id="backColor"><font size="10" ><i>Cheapest and safest place to get electronic products!<br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Use code "matt" for 20% off!</i></font></marquee>
       </div>
     );
   }

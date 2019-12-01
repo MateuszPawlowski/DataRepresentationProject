@@ -1,5 +1,36 @@
-.App {
+.Background{
+  background-color: gray;
   text-align: center;
+}
+
+.Reader{
+  background-color: gray;
+  color: lightblue;
+  text-align: center;
+}
+
+#inputs{
+  text-align: center;
+  width: 500px;
+}
+
+#input{
+  border-color:  black;
+  background-color: greenyellow;
+  border-radius: 5px;
+}
+
+form { 
+  margin: 0 auto; 
+  width:250px;
+  }
+
+#black{
+ color: black; 
+}
+#backColor{
+  color: greenyellow;
+  background-color: black;
 }
 
 .App-logo {

@@ -1,3 +1,4 @@
+// constants
 const express = require('express')
 const app = express()
 const port = 4000
@@ -5,10 +6,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
 const mongodDB = 'mongodb+srv://Admin:Admin@cluster0-vmkhm.mongodb.net/test?retryWrites=true&w=majority';
 mongoose.connect(mongodDB, { useNewUrlParser: true });
 
+// use cors
 app.use(cors());
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -18,77 +19,53 @@ app.use(function (req, res, next) {
     next();
 });
 
+// body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// mongoose schema for the price product and image
 const Schema = mongoose.Schema;
-const movieSchema = new Schema({
-    title: String,
-    year: String,
-    poster: String
+const productSchemaa = new Schema({
+    price: String,
+    product: String,
+    image: String
 });
 
-const MovieModel = mongoose.model('movies', movieSchema)
+// create a schema in mongoose
+const ProductModel = mongoose.model('products', productSchemaa)
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.get('/whatever', (req, res) => {
-    res.send('Suhh Dude')
-})
-
-app.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname, '/index.html'))
-})
-
-app.get('/name', (req, res) => {
-    console.log(req.query.firstname + ' ' + req.query.lastname);
-
-    res.send('Welcome ' + req.query.firstname + ' ' + req.query.lastname);
-})
-
-app.post('/name', (req, res) => {
-    console.log(req.body.firstname + ' ' + req.body.lastname);
-
-    res.send('Post recieved from ' + req.body.firstname + ' ' + req.body.lastname);
-})
-
-app.get('/hello/:name', (req, res) => {
-    console.log(req.params.name);
-    res.send('Hello ' + req.params.name)
-})
-
-app.post('/api/movies', (req, res) => {
+// in order to create a product
+app.post('/api/products', (req, res) => {
     console.log(req.body);
-
-    MovieModel.create({
-        title: req.body.title,
-        year: req.body.year,
-        poster: req.body.poster
+    ProductModel.create({
+        price: req.body.price,
+        product: req.body.product,
+        image: req.body.image
     });
-
     res.json('Data Uploaded');
-
 })
 
-app.get('/api/movies/:id', (req, res) => {
+// in order to find the id of a product
+app.get('/api/products/:id', (req, res) => {
     console.log(req.params.id);
-    MovieModel.findById(req.params.id, (error, data) => {
+    ProductModel.findById(req.params.id, (error, data) => {
         res.json(data);
     })
 })
 
-app.delete('/api/movies/:id', (req, res) => {
+// in order to delete a product using its id
+app.delete('/api/products/:id', (req, res) => {
     console.log(req.params.id);
-    MovieModel.deleteOne({ _id: req.params.id },
+    ProductModel.deleteOne({ _id: req.params.id },
         (error, data) => {
             res.json(data);
         });
 })
 
-app.put('/api/movies/:id', (req, res) => {
+// in order to edit a product using its id
+app.put('/api/products/:id', (req, res) => {
     console.log("Edit: " + req.params.id);
-
-    MovieModel.findByIdAndUpdate(req.params.id,
+    ProductModel.findByIdAndUpdate(req.params.id,
         req.body,
         { new: true },
         (error, data) => {
@@ -96,34 +73,12 @@ app.put('/api/movies/:id', (req, res) => {
         })
 })
 
-app.get('/api/movies/: id', (req, res) => {
-    console.log("Get: " + req.params.id);
-
-    MovieModel.findById(req.params.id, (error, data) => {
-        res.json(data);
+// finds a product
+app.get('/api/products', (req, res) => {
+    ProductModel.find((error, data) => {
+        res.json({ products: data });
     })
 })
 
-app.get('/api/movies', (req, res) => {
-    MovieModel.find((error, data) => {
-        res.json({ movies: data });
-    })
-    // const myMovies = [
-    //     {
-    //         "Title": "Avengers: Infinity War",
-    //         "Year": "2018",
-    //         "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-    //     },
-    //     {
-    //         "Title": "Captain America: Civil War",
-    //         "Year": "2016",
-    //         "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-    //     }
-    // ];
-
-    // res.status(200).json({ movies: myMovies, message: 'Data Sent' });
-})
-
-
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// shows in the terminal that the app is running
+app.listen(port, () => console.log(`App listening on port ${port}`))

@@ -1,7 +1,6 @@
+// imports
 import React from 'react';
 import './App.css';
-import Header from './components/header';
-import Footer from './components/footer';
 import Content from './components/content';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
@@ -14,18 +13,21 @@ import Edit from './components/edit';
 class App extends React.Component {
   render() {
     return (
+      // browser router import
       <BrowserRouter>
+        {/* div to style the page */}
         <div className="App">
-
+          {/* navigational bar and the bar links to other pages */}
           <Navbar bg="primary" variant="dark">
             <Navbar.Brand href="#home">Navbar</Navbar.Brand>
             <Nav className="mr-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/read">Read</Nav.Link>
-              <Nav.Link href="/create">Create</Nav.Link>
+              <Nav.Link href="/read">All Products</Nav.Link>
+              <Nav.Link href="/create">Add Product</Nav.Link>
             </Nav>
 
           </Navbar>
+          {/* switch */}
           <Switch>
             <Route exact path="/" component={Content} />
             <Route path="/read" component={Read} />
